@@ -1,39 +1,51 @@
 package org.example.pages;
 
+import com.codeborne.selenide.Condition;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
+import java.util.Set;
+
+import static com.codeborne.selenide.Selenide.$;
 
 public class LoginPage {
     public WebDriver driver;
-    public WebDriverWait wait;
+    private final String LOGIN = System.getenv("LOGIN");
+    private final String PASSWORD = System.getenv("PASSWORD");
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        PageFactory.initElements(driver, this);
     }
 
-    @FindBy(xpath = "//*[contains(text(), 'Продовжити')]")
-    private WebElement loginBtn;
-
-    public void inputLogin(String login) {
-        WebElement loginField = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[contains(@data-testid, 'login-input')]")));
-        loginField.sendKeys(login);
+    public void inputLogin() {
+        $(By.xpath("//*[@data-testid='login-input']"))
+                .shouldBe(Condition.visible)
+                .shouldBe(Condition.enabled)
+                .setValue(LOGIN);
     }
 
-    public void inputPasswd(String passwd) {
-        WebElement passwdField = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[contains(@data-testid, 'password-input')]")));
-        passwdField.sendKeys(passwd);
+    public void inputPasswd() {
+        $(By.xpath("//*[@data-testid='password-input']"))
+                .shouldBe(Condition.visible)
+                .shouldBe(Condition.enabled)
+                .setValue(PASSWORD);
     }
 
-    public void clickLoginBtn() {
-        loginBtn.click();
+    public void clickNextBtn() {
+        $(By.xpath("//*[@data-testid='next-button']"))
+                .shouldBe(Condition.clickable)
+                .click();
     }
+
+    public void switchToNewWindow() {
+        String originalWindow = driver.getWindowHandle();
+        Set<String> allWindows = driver.getWindowHandles();
+        for (String windowHandle : allWindows) {
+            if (!windowHandle.equals(originalWindow)) {
+                driver.switchTo().window(windowHandle);
+                if ($(By.xpath("//*[@data-testid='login-input']")).exists()) break;
+            }
+        }
+    }
+
 }
