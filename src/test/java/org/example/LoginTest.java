@@ -13,8 +13,7 @@ class LoginTest extends BaseTest {
     ProfilePage profilePage;
 
     @Test
-    void loginTest() {
-//      This test checks the possibility of entering the site by a user with a registered e-mail and password
+    void assertLoginSuccessWithCorrectCredentials() {
         mainPage = new MainPage(driver);
         mainPage.clickLoginBtn();
         mainPage.switchToNewWindow();

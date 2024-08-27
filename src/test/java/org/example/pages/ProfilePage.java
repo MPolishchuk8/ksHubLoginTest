@@ -7,23 +7,24 @@ import org.openqa.selenium.WebDriver;
 import static com.codeborne.selenide.Selenide.$x;
 
 public class ProfilePage {
-    private WebDriver driver;
 
     public ProfilePage(WebDriver driver) {
-        this.driver = driver;
     }
 
-    private SelenideElement userMenu = $x("//*[contains(@title, 'login')]");
-    private SelenideElement logoutBtn = $x("//*[contains(@href, '/auth/logout')]");
+    private final SelenideElement userMenu = $x("//button[@id='login-button']");
+    private final SelenideElement logoutBtn = $x("//a[@href = '/auth/logout']");
 
     public String getUserName() {
         return userMenu
+                .should(Condition.exist)
                 .shouldBe(Condition.visible)
+                .shouldBe(Condition.enabled)
                 .getText();
     }
 
     public void clickUserMenu() {
         userMenu
+                .should(Condition.exist)
                 .shouldBe(Condition.visible)
                 .shouldBe(Condition.enabled)
                 .click();
@@ -31,9 +32,9 @@ public class ProfilePage {
 
     public void userLogout() {
         logoutBtn
+                .should(Condition.exist)
                 .shouldBe(Condition.visible)
                 .shouldBe(Condition.enabled)
                 .click();
     }
-
 }

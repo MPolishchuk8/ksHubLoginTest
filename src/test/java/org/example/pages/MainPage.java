@@ -25,7 +25,7 @@ public class MainPage {
         for (String windowHandle : allWindows) {
             if (!windowHandle.equals(originalWindow)) {
                 driver.switchTo().window(windowHandle);
-                if ($(By.xpath("//*[@data-testid='login-input']")).exists()) break;
+                if ($(By.xpath("//input[@data-testid='login-input']")).exists()) return;
             }
         }
     }

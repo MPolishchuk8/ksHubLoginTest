@@ -43,9 +43,8 @@ public class LoginPage {
         for (String windowHandle : allWindows) {
             if (!windowHandle.equals(originalWindow)) {
                 driver.switchTo().window(windowHandle);
-                if ($(By.xpath("//*[@data-testid='login-input']")).exists()) break;
+                if ($(By.xpath("//span[@title = 'login']")).exists()) return;
             }
         }
     }
-
 }
