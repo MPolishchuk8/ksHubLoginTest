@@ -8,6 +8,7 @@ import static com.google.common.base.Strings.isNullOrEmpty;
 public class Config {
 
     public static final String PRODUCT_URL;
+    public static final String PRODUCT_CAS_URL;
     public static final String HUB_SELENIUM_URL;
     public static final String WEB_BROWSER_NAME;
     public static final Long BROWSER_TIMEOUT;
@@ -27,6 +28,11 @@ public class Config {
                     "productUrl",
                     "product.url",
                     "PRODUCT_URL",
+                    "");
+            PRODUCT_CAS_URL = getPropertyValue(
+                    "productCasUrl",
+                    "product.cas.url",
+                    "PRODUCT_CAS_URL",
                     "");
             HUB_SELENIUM_URL = getPropertyValue(
                     "hubSeleniumUrl",

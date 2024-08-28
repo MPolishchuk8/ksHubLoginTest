@@ -23,7 +23,7 @@ public class BaseTest {
         Configuration.baseUrl = Config.PRODUCT_URL;
     }
 
-    public void switchToNextWindow() {
+    public void switchToWindow(String urlPrefix) {
         WebDriver driver = WebDriverRunner.getWebDriver();
         String currentHandle = "";
         try {
@@ -33,7 +33,9 @@ public class BaseTest {
         for (String handle : allWinHandles) {
             if (!currentHandle.equals(handle)) {
                 driver.switchTo().window(handle);
-                break;
+                if (driver.getCurrentUrl().startsWith(urlPrefix)) {
+                    return;
+                }
             }
         }
     }

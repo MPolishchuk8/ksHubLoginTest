@@ -6,7 +6,7 @@ import static com.codeborne.selenide.Selenide.$x;
 
 public class ProfilePage {
     private final SelenideElement userMenu = $x("//button[@id='login-button']");
-    private final SelenideElement logoutBtn = $x("//a[@href = '/auth/logout']");
+    private final SelenideElement logoutBtn = $x("//a[@href='/auth/logout']");
 
     public String getUserName() {
         return userMenu

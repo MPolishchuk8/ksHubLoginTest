@@ -5,5 +5,6 @@ web.browser.name=chrome
 browser.timeout=5000
 # Product settings
 product.url=http://some-url
+product.cas.url=http://some-url
 user.login=some-login
 user.password=some-password
