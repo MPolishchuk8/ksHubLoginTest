@@ -1,0 +1,9 @@
+# Hub settings
+hub.selenium.url=http://127.0.0.1:4444
+# Browser settings
+web.browser.name=chrome
+browser.timeout=5000
+# Product settings
+product.url=http://some-url
+user.login=some-login
+user.password=some-password
