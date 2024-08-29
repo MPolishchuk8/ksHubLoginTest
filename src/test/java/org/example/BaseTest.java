@@ -20,7 +20,6 @@ public class BaseTest {
         WebDriver driver = new DriverManager().initWebDriver(defCapabilities);
         driver.manage().window().maximize();
         WebDriverRunner.setWebDriver(driver);
-        Configuration.baseUrl = Config.PRODUCT_URL;
     }
 
     public void switchToWindow(String urlPrefix) {
