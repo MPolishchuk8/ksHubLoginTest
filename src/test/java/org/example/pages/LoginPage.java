@@ -3,9 +3,6 @@ package org.example.pages;
 import com.codeborne.selenide.Condition;
 import org.example.Config;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-
-import java.util.Set;
 
 import static com.codeborne.selenide.Selenide.$;
 
