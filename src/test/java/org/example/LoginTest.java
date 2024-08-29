@@ -1,32 +1,32 @@
 package org.example;
 
+import com.codeborne.selenide.WebDriverRunner;
 import org.example.pages.LoginPage;
 import org.example.pages.MainPage;
 import org.example.pages.ProfilePage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import static com.codeborne.selenide.Selenide.open;
+
 class LoginTest extends BaseTest {
-    private final String login = System.getenv("LOGIN");
-    MainPage mainPage;
-    LoginPage loginPage;
-    ProfilePage profilePage;
 
     @Test
     void assertLoginSuccessWithCorrectCredentials() {
-        mainPage = new MainPage(driver);
+        open(Config.PRODUCT_URL);
+        MainPage mainPage = new MainPage();
         mainPage.clickLoginBtn();
-        mainPage.switchToNewWindow();
-        driver.manage().window().maximize();
-        loginPage = new LoginPage(driver);
+        switchToWindow(Config.PRODUCT_CAS_URL);
+        WebDriverRunner.getWebDriver().manage().window().maximize();
+        LoginPage loginPage = new LoginPage();
         loginPage.inputLogin();
         loginPage.clickNextBtn();
         loginPage.inputPasswd();
         loginPage.clickNextBtn();
-        loginPage.switchToNewWindow();
-        profilePage = new ProfilePage(driver);
-        String user = profilePage.getUserName();
-        Assertions.assertEquals(login, user);
+        switchToWindow(Config.PRODUCT_URL);
+        ProfilePage profilePage = new ProfilePage();
+        String userName = profilePage.getUserName();
+        Assertions.assertEquals(Config.USER_LOGIN, userName);
         profilePage.clickUserMenu();
         profilePage.userLogout();
     }

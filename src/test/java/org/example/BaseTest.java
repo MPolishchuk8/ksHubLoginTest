@@ -2,38 +2,45 @@ package org.example;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
-import static com.codeborne.selenide.Selenide.open;
+import java.util.Set;
 
 public class BaseTest {
-    private static final String LOGINPAGE = System.getenv("LOGINPAGE");
-    public WebDriver driver;
-
     @BeforeEach
     public void setUp() {
-        WebDriverManager.chromedriver().setup();
-        Configuration.timeout = 2000;
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--remote-allow-origins=*");
-        options.addArguments("--disable-web-security");
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--start-maximized");
-        driver = new ChromeDriver(options);
+        final DesiredCapabilities capabilities = new DesiredCapabilities();
+        initWebDriver(capabilities);
+    }
+
+    private void initWebDriver(final DesiredCapabilities defCapabilities) {
+        WebDriver driver = new DriverManager().initWebDriver(defCapabilities);
+        driver.manage().window().maximize();
         WebDriverRunner.setWebDriver(driver);
-        open(LOGINPAGE);
+    }
+
+    public void switchToWindow(String urlPrefix) {
+        WebDriver driver = WebDriverRunner.getWebDriver();
+        String currentHandle = "";
+        try {
+            currentHandle = driver.getWindowHandle();
+        } catch (Exception ignored) {}
+        Set<String> allWinHandles = driver.getWindowHandles();
+        for (String handle : allWinHandles) {
+            if (!currentHandle.equals(handle)) {
+                driver.switchTo().window(handle);
+                if (driver.getCurrentUrl().startsWith(urlPrefix)) {
+                    return;
+                }
+            }
+        }
     }
 
     @AfterEach
     public void tearDown() {
-        if (driver != null) {
-            driver.quit();
-        }
+        WebDriverRunner.closeWebDriver();
     }
 }
