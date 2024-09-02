@@ -24,6 +24,11 @@ class LoginTest extends BaseTest {
         loginPage.inputPasswd();
         loginPage.clickNextBtn();
         switchToWindow(Config.PRODUCT_URL);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         ProfilePage profilePage = new ProfilePage();
         String userName = profilePage.getUserName();
         Assertions.assertEquals(Config.USER_LOGIN, userName);
