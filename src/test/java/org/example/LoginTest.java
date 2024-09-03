@@ -12,7 +12,7 @@ import static com.codeborne.selenide.Selenide.open;
 class LoginTest extends BaseTest {
 
     @Test
-    void assertLoginSuccessWithCorrectCredentials() {
+    void assertLoginSuccessWithCorrectCredentials() throws InterruptedException {
         open(Config.PRODUCT_URL);
         MainPage mainPage = new MainPage();
         mainPage.clickLoginBtn();
@@ -24,11 +24,7 @@ class LoginTest extends BaseTest {
         loginPage.inputPasswd();
         loginPage.clickNextBtn();
         switchToWindow(Config.PRODUCT_URL);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        Thread.sleep(1000);
         ProfilePage profilePage = new ProfilePage();
         String userName = profilePage.getUserName();
         Assertions.assertEquals(Config.USER_LOGIN, userName);
